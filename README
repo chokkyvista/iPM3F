@@ -1,0 +1,45 @@
+To run iPM3F (M3F and iBPM3F likewise):
+1. set working dir in MATLAB to iPM3F
+
+2. load data
+  >> load('../data/MovieLens-1M.mat');
+
+3. a little bit configuration
+  >> weakopts = []; % for the 'weak' setting
+  >> validid = 0; % do not use validation set
+  >> savedir = '<you_name_it>';
+  >> mkdir(savedir);
+
+4. compile mex-files and initialize
+  >> init;
+
+5. set range for regularization constant tuning
+  >> rid_s = 1;
+  >> rid_t = numel(regvals); % tune the whole 11 candidate values
+
+6. turn on parallel computing and logging [OPTIONAL]
+  >> matlabpool open <your_profile>;
+  >> diary(fullfile(savedir, 'log.txt'));
+
+7. train the model and test performance
+  >> train_ipm3f;
+
+8. turn off parallel computing and logging [OPTIONAL]
+  >> diary off;
+  >> matlabpool close;
+
+Put together:
+>> cd iPM3F;
+>> load('../data/MovieLens-1M.mat');
+>> weakopts = [];
+>> validid = 0;
+>> savedir = 'testrun';
+>> mkdir(savedir);
+>> init;
+>> rid_s = 1;
+>> rid_t = numel(regvals);
+>> matlabpool open local;
+>> diary(fullfile(savedir, 'log.txt'));
+>> train_ipm3f;
+>> diary off;
+>> matlabpool close;
