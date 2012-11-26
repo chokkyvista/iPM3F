@@ -107,8 +107,10 @@ typedef struct struct_learn_parm {
   int num_features;
   double delta_ell;
 
+  /* Modified: Minjie Xu */
   /* used in loss function type 2 */
   double hinge_margin;
+  /* */
 } STRUCT_LEARN_PARM;
 
 typedef struct struct_test_stats {

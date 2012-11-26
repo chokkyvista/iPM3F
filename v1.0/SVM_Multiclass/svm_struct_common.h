@@ -22,9 +22,11 @@
 # define STRUCT_VERSION       "V3.10"
 # define STRUCT_VERSION_DATE  "14.08.08"
 
+/* Modified: Minjie Xu */
 #ifdef MEX
-#include "mex.h" // 'printf' to command window
+#include "mex.h" // 'printf' to Matlab command window
 #endif
+/* */
 //#ifdef __cplusplus
 //extern "C" {
 //#endif

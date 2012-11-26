@@ -1,3 +1,7 @@
+% test the performance of the optimal result (under validation set) on the real test set
+% 
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function [enderr, minerr, mfobj, iter] = testvalid(opt, tY, ee, vort)
 mfobj = min(opt.fobjs);
 iter = numel(opt.fobjs);

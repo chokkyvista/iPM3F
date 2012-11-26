@@ -1,3 +1,9 @@
+/* A specific golden-section search solver that approximately solves 
+ * the conditional problem on psi in iPM3F problems
+ * 
+ * Written by Minjie Xu (chokkyvista06@gmail.com)
+ */
+
 #include <assert.h>
 #include <math.h>
 

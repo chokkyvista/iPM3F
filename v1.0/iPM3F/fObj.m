@@ -1,3 +1,7 @@
+% calculate the objective function value of iPM3F (differing by a constant)
+% 
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function [fobj] = fObj(gammav, psiv, Lambda, theta, alphav, sigmav, Su, L, N, K, C, l, T_rjs, wors)
 if ~wors
     fobj = norm(Lambda, 'fro')^2/(2*sigmav^2); % KL(p(V)||p(V0))

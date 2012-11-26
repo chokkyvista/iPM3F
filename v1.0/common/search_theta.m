@@ -1,6 +1,11 @@
-function [x1, x2] = search_theta(deszcrs, aszcrs, C, rhor, varsigma)
-% objective function to minimize:
+% solve the conditional subproblem on theta in iPM3F problems
+% specifically, minimize the following function
 % f = @(x)(sum(max(0,repmat(deszcrs',1,numel(x))-x(ones(1,numel(deszcrs)),:)))+sum(max(0,x(ones(1,numel(aszcrs)),:)-repmat(aszcrs',1,numel(x)))))*C+0.5/varsigma^2*(x-rhor).^2
+%
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
+function [x1, x2] = search_theta(deszcrs, aszcrs, C, rhor, varsigma)
+
 
 if ~exist('rhor', 'var')
     rhor = 0;

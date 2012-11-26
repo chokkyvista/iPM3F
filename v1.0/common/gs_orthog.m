@@ -1,5 +1,8 @@
-function [q] = gs_orthog(p)
 % Gram-Schmidt Orthogonalization
+% 
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
+function [q] = gs_orthog(p)
 [k,n] = size(p);
 q = p;
 for j = 2:n

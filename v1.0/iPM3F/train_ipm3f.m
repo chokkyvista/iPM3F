@@ -1,3 +1,5 @@
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 errs = cell(numel(traindata), numel(regvals));
 fobjs = cell(size(errs));
 etimes = cell(size(errs));

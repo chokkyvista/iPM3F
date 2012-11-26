@@ -1,3 +1,5 @@
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 %% 
 ROOTDIR = '..';
 MEXBINDIR = [ROOTDIR filesep 'bin'];

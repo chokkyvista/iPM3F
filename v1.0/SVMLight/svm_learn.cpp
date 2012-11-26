@@ -26,7 +26,7 @@
 
 /* interface to QP-solver */
 double *optimize_qp(QP *, double *, long, double *, LEARN_PARM *);
-void reset_hideo_globals();
+void reset_hideo_globals(); /* Modified: Minjie Xu */
 
 /*---------------------------------------------------------------------------*/
 
@@ -1779,7 +1779,7 @@ long optimize_to_convergence_sharedslack(DOC **docs, long int *label,
 		slack,alphaslack);
 
 	/* repeat this loop until we have convergence */
-	reset_hideo_globals();
+	reset_hideo_globals(); /* Modified: Minjie Xu */
 	for(;retrain && (!terminate);iteration++) {
 
 		if(kernel_cache)

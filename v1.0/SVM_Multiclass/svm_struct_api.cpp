@@ -100,10 +100,14 @@ void        init_struct_model(SAMPLE sample, STRUCTMODEL *sm,
 
   sparm->num_classes=1;
   for(i=0;i<sample.n;i++)     /* find highest class label */
+    /* Modified: Minjie Xu
+     * 'number of classes' should be independent of the 'highest class label' in the training set ?
+     */
 //    if(sparm->num_classes < (sample.examples[i].y.classlabel+0.1))
 //      sparm->num_classes=sample.examples[i].y.classlabel+0.1;
     if(sparm->num_classes < (sample.examples[i].y.num_classes+0.1))
       sparm->num_classes=sample.examples[i].y.num_classes+0.1;
+    /* */
   for(i=0;i<sample.n;i++)     /* find highest feature number */
     for(w=sample.examples[i].x.doc->fvec->words;w->wnum;w++) 
       if(totwords < w->wnum) 
@@ -365,7 +369,7 @@ double      loss(LABEL y, LABEL ybar, STRUCT_LEARN_PARM *sparm, const SVECTOR *f
 			if (y.classlabel == ybar.classlabel)
 				return 0;
 			else
-				return sparm->hinge_margin + fvec->words->weight * (y.classlabel==2 ? 1 : -1);
+				return sparm->hinge_margin + fvec->words->weight * (y.classlabel==2 ? 1 : -1); /* Modified: Minjie Xu */
 		}
 	}
 }

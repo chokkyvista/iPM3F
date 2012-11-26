@@ -1,3 +1,7 @@
+% calculate the new direction set according to the Rosenbrock method
+%
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function [nd] = rb_dset(d, slen) % slen: row vector
 K = numel(slen);
 nd = cumsum(d(:,end:-1:1).*slen(ones(1,size(d,1)),end:-1:1), 2);

@@ -1,12 +1,15 @@
-% function [x1, x2] = search_shpcr(deszcrs, aszcrs, C, rhor, varsigma)
-function [x1, x2] = search_shpcr(zcrs, slope, C, rg, hinvrg)
 % search for the optimal solution to an objective of the form:
 %     C*(sum of hinge loss) + STRICTLY convex regularizer
 %       's'    'h'         'p'        'c'    'r'
-% C: regularization constant (must be positive)
-% rg: gradients of the regularizer on points [-inf, zcrs]
-%     e.g., in SVMs, rg = [-inf, zcrs];
-% hinvrg: function handle to the inverse gradient
+% 
+% C - regularization constant (must be positive)
+% rg - gradients of the regularizer on points [-inf, zcrs]
+%      e.g., in SVMs, rg = [-inf, zcrs];
+% hinvrg - function handle to the inverse gradient
+% 
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
+function [x1, x2] = search_shpcr(zcrs, slope, C, rg, hinvrg)
 
 tpos = slope~=0;
 zcrs = zcrs(tpos);
@@ -69,35 +72,3 @@ end
 function y = invrg_svm(x)
 y = x;
 end
-
-% tst = 0; tss = 0;
-% for i = 1:10000
-%     deszcrs = randn(1, randi(500))*100+randi(100);
-%     aszcrs = randn(1,randi(500))*100+randi(100);
-%     C = abs(randn*10);
-%     rhor = rand*max(abs([deszcrs, aszcrs]))*(2*(rand>0.5)-1);
-%     varsigma = std([deszcrs, aszcrs], 1)*2*rand;
-%     tStart = tic;[x1, x2] = search_theta(deszcrs, aszcrs, C, rhor, varsigma);tst = tst + toc(tStart);
-%     zcrs = [deszcrs, aszcrs];
-%     slope = [-ones(1,numel(deszcrs)),ones(1,numel(aszcrs))];
-%     rg = ([-inf,zcrs]-rhor)./varsigma^2;
-%     tStart = tic;[y1, y2] = search_shpcr(zcrs, slope, C, rg, @(x)varsigma^2*x+rhor);tss = tss + toc(tStart);
-%     if abs(y1-x1)>1e-10 || abs(y2-x2)>1e-10
-%         fprintf('BUG!\n');
-%         break;
-%     end
-% end
-% 
-% tst = 0; tss = 0;
-% for i = 1:10000
-%     deszcrs = randn(1, randi(500))*100+randi(100);
-%     aszcrs = randn(1,randi(500))*100+randi(100);
-%     tStart = tic;[x1, x2] = search_theta(deszcrs, aszcrs);tst = tst + toc(tStart);
-%     zcrs = [deszcrs, aszcrs];
-%     slope = [-ones(1,numel(deszcrs)),ones(1,numel(aszcrs))];
-%     tStart = tic;[y1, y2] = search_shpcr(zcrs, slope);tss = tss + toc(tStart);
-%     if y1~=x1 || y2~=x2
-%         fprintf('BUG!\n');
-%         break;
-%     end
-% end

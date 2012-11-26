@@ -1,3 +1,18 @@
+% collect iteration statistics
+% 
+% inputs:
+% itercell - 'errs', 'postdim', 'fobjs', 'etimes', etc.
+% rid - when 'itercell' is 'errs', use 'rid' to index the error of interest 
+%       (omit it to indicate collecting all error measures)
+% statfun - statistic function handle (defaults to 'min')
+% 
+% outputs:
+% endvals - the last value when iteration terminates
+% iters - number of iterations
+% statvals - specific statistic
+% 
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function [endvals, iters, statvals] = iterstats(itercell, rid, statfun)
 % maxiter = 0;
 % for i = 1:numel(itercell)

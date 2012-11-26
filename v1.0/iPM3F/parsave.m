@@ -1,3 +1,9 @@
+% save variables during iteration 
+% (useful when different regularization constants are tuned in a parallel fashino since
+% a naive 'save' function is prohibited in the 'parfor' loop)
+% 
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function parsave(fname, optgamma, optpsi, optLambda, optheta, errs, fobjs, etimes, postdim, regvals, K, l, alphav, sigmav, rho, varsigma, dobuffer)
 varname = {'optgamma', 'optpsi', 'optLambda', 'optheta', 'errs', 'fobjs', 'etimes', 'postdim', 'regvals', 'K', 'l', 'alphav', 'sigmav', 'rho', 'varsigma'};
 if exist(fname, 'file')

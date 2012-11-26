@@ -1,3 +1,9 @@
+/* A specific mex wrapper that solves the conditional SVMs
+ * in M3F problems via SVM_Multiclass
+ * 
+ * Written by Minjie Xu (chokkyvista06@gmail.com)
+ */
+
 #include <assert.h>
 
 #include "mex.h"

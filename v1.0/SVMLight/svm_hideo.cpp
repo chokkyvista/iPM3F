@@ -82,6 +82,9 @@ void lswitchrk_matrix(double *, long, long, long);
 
 double calculate_qp_objective(long, double *, double *, double *);
 
+/* Modified: Minjie Xu 
+ * in case this module be called multiple times in Matlab for different SVM problems
+ */
 void reset_hideo_globals();
 
 /* start the optimizer and return the optimal values */
@@ -91,13 +94,16 @@ void reset_hideo_globals();
 /* only semi-definite. */
 double *optimize_qp(QP *qp, double *epsilon_crit, long nx, double *threshold, LEARN_PARM *learn_parm)
 {
-  static long last_nx = nx;
+  static long last_nx = nx; /* Modified: Minjie Xu */
   long i,j;
   int result;
   double eq,progress;
 
   roundnumber++;
 
+  /* Modified: Minjie Xu
+   * prevent memory leak
+   */
   if (primal && last_nx < nx) {
 	  free(primal); primal = 0;
 	  free(dual); dual = 0;
@@ -105,6 +111,7 @@ double *optimize_qp(QP *qp, double *epsilon_crit, long nx, double *threshold, LE
 	  free(buffer); buffer = 0;
   }
   last_nx = nx;
+  /* */
   if(!primal) { /* allocate memory at first call */
     primal=(double *)my_malloc(sizeof(double)*nx);
     dual=(double *)my_malloc(sizeof(double)*((nx+1)*2));
@@ -187,7 +194,7 @@ double *optimize_qp(QP *qp, double *epsilon_crit, long nx, double *threshold, LE
       if(result != ONLY_ONE_VARIABLE) 
 	precision_violations++;
       if(result == MAXITER_EXCEEDED) 
-	maxiter+=10;
+	maxiter+=10; /* Modified: Minjie Xu */
       if(result == NAN_SOLUTION) {
 	lindep_sensitivity*=2;  /* throw out linear dependent examples more */
 	                        /* generously */
@@ -1059,6 +1066,7 @@ double calculate_qp_objective(long opt_n, double *opt_g, double *opt_g0, double 
 	return(obj);
 }
 
+/* Modified: Minjie Xu */
 void reset_hideo_globals() {
 	opt_precision = DEF_PRECISION;
 	maxiter = DEF_MAX_ITERATIONS;
@@ -1067,3 +1075,4 @@ void reset_hideo_globals() {
 	smallroundcount = 0;
 	roundnumber = 0;
 }
+/* */

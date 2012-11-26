@@ -1,0 +1,13 @@
+constructed by 'common/pardataset.m'
+
+e.g. for MovieLens-1M
+[weaktrain, weaktest, strongtrain, strongtest] = pardataset(ratings, 20, 0, 3, 5000);
+weakvalid = cell(numel(weaktrain));
+strongvalid = cell(numel(strongtrain));
+for i = 1:numel(weaktrain)
+    [~,weakvalid{i}] = pardataset(weaktrain{i}, 0, 0, 3);
+    [~,strongvalid{i}] = pardataset(strongtrain{i}, 0, 0, 3);
+end
+L = 5;
+ee = emae(L);
+save('MovieLens-1M.mat', 'weaktrain', 'strongtrain', 'weaktest', 'strongtest', 'L', 'ee', 'weakvalid' ,'strongvalid');

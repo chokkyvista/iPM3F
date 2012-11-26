@@ -591,9 +591,14 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 	/*** main loop ***/
 	/*****************/
 	int *vecLabel = (int*)malloc(sizeof(int)*n);
+    /* Modified: Minjie Xu
+     * jump out of the loop if we're stuck on the same set
+     * of 'most violated constraints' for several times
+     */
 	memset(vecLabel, -1, sizeof(int)*n);
 	bool new_mvjcons;
 	int oops_counter = 0;
+    /* */
 	do { /* iteratively find and add constraints to working set */
 
 		if(struct_verbosity>=1) { 
@@ -617,7 +622,7 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 		/**** find a violated joint constraint ****/
 		lhs = NULL;
 		rhs = 0;
-		new_mvjcons = false;
+		new_mvjcons = false; /* Modified: Minjie Xu */
 		if(alg_type == ONESLACK_DUAL_CACHE_ALG) {
 			rt1 = get_runtime();
 
@@ -701,8 +706,10 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 				/* compute most violating fydelta=fy-fybar and rhs for example i */
 				LABEL ybar = find_most_violated_constraint(&fydelta, &rhs_i, &ex[i], fycache[i], n,
 									sm, sparm, &rt_viol, &rt_psi, &argmax_count);
+                /* Modified: Minjie Xu */
 				if (ybar.classlabel-1 != vecLabel[i])
 					new_mvjcons = true;
+                /* */
 				vecLabel[i] = ybar.classlabel - 1;
 				free_label(ybar);
 
@@ -731,11 +738,12 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 
 			rt_total += MAX(get_runtime()-rt1,0);
 		} /* end of finding most violated joint constraint */
+        /* Modified: Minjie Xu */
 		if (new_mvjcons)
 			oops_counter = 0;
 		else if (++oops_counter == 3)
 			break;
-
+        /* */
 		rt1 = get_runtime();
 
 		/**** if `error', then add constraint and recompute QP ****/
@@ -811,7 +819,10 @@ void svm_learn_struct_joint(SAMPLE sample, STRUCT_LEARN_PARM *sparm,
 			/* Check if some of the linear constraints have not been
 			active in a while. Those constraints are then removed to
 			avoid bloating the working set beyond necessity. */
-			/*
+			/* Modified: Minjie Xu
+             * 'remove_inactive_constraints' might result in a dead loop
+             */
+            /*
 			if(struct_verbosity>=2) printf("Reducing working set...");fflush(stdout);
 			remove_inactive_constraints(&cset,alpha,optcount,alphahist,50);
 			if( struct_verbosity >= 2 ) printf("done. ");

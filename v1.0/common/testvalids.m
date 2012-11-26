@@ -1,3 +1,15 @@
+% test the performance of the optimal result (under validation set) on the real test set
+% 
+% inputs:
+% vdir - root dir where the 'opts' are stored
+% testdata - test set ('weaktest' or 'strongtest')
+% ee - EMAE
+% vort - 
+%   0: collect the performance data on validation set
+%   1: test on real test set
+% 
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function [minerrs, enderrs, mfobjs, iters, subdirnames] = testvalids(vdir, testdata, ee, vort)
 if ~exist('vort', 'var')
     vort = 1;

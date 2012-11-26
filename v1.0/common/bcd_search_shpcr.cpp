@@ -1,3 +1,14 @@
+/* A general 'Binary search + Coordinate Descent' solver
+ * for 'Sum of Hinge loss Plus Convex Regularizer' problem
+ * as described in Appendix C of the paper
+ * 
+ * Features:
+ * 1. searching in any direction set (not necessarily orthonormal or aligned with the axises)
+ * 2. supports powell and rosenbrock methods
+ * 
+ * Written by Minjie Xu (chokkyvista06@gmail.com)
+ */
+
 #include <assert.h>
 #include <stdlib.h>
 #include <string.h>
@@ -249,6 +260,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 		double dtnXi;
 		double sol;
 		memcpy(w0_k, w_k, sizeof(double)*K);
+        // iterate through all the coordinates
 		for (int n = 0; n < N; ++n) {
 			X_ki_ptr = X_ki;
 			for (int i = 0, ri = 0; i < I; ++i) {
@@ -320,6 +332,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 	free(w0_k);
 }
 
+/* Core solver */
 void search_shpcr(const double* const tzcrs, const double* const slope, int nzcrs, regularizer_gradient* const rgobj, const double C) {
 	bool lossonly = (dynamic_cast<rg_null* const>(rgobj) != NULL);
 

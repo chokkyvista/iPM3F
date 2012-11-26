@@ -1,3 +1,10 @@
+% generate 'ratings' matrix from the raw EachMovie .dat file
+% 
+% requires 'sparse sub access' by Bruno Luong:
+% http://www.mathworks.com/matlabcentral/fileexchange/23488-sparse-sub-access
+%
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function [ratings, rawdata] = eachmovie(datfile, sp)
 if ~exist('sp', 'var')
     sp = true;

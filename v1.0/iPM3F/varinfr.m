@@ -1,3 +1,7 @@
+% one round of variation inference in iPM3F
+% 
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function [gammav,psiv,Lambda,theta,fobj,etime] = varinfr(gammav, psiv, Lambda, theta, alphav, sigmav, Su, Sv, L, N, M, K, C, l, rho, varsigma, T_ris, T_rjs, loopi, wors)
 etime = 0;
 
@@ -40,37 +44,7 @@ cumsum_psi_gammav1 = cumsum(psi_gammav(:,1));
 cumsum_psi_sum_gammav = cumsum(psi_sum_gammav);
 L_nu = cumsum(qm_raw.*psi_gammav(:,2) + [0;qm_raw(2:end).*cumsum_psi_gammav1(1:end-1)] - qm_raw.*cumsum_psi_sum_gammav - qm_raw.*qm_raw_index)./cumsum_qm_raw + log(cumsum_qm_raw);
 
-% for i = 1:N
-%     T_rj = double(T_rjs{i});
-%     T_rj(T_rj~=1) = -1;
-%     T_rj(T_rj.*(repmat(theta(i,:)', 1, numel(Su{i}))-repmat(psiv(i,:)*Lambda(Su{i},:)', L-1, 1)) > l) = 0;
-%     partial_Rli = (sum(T_rj)*Lambda(Su{i},:))';
-%     psiv(i,:) = 1./(1+exp(-(cumsum_psi_gammav1-cumsum_psi_sum_gammav-L_nu-C*partial_Rli))');
-% end
-
 sR = 2^floor(0.1*(loopi-1));
-%     function y = fObj_psivik(x)
-%         new_Lambda_jk_psivit = Lambda_jk_psivit + (x-psivik)*Lambda_jk(:,k);
-%         y = x*log(x)+(1-x)*log(1-x)...
-%             -(cumsum_psi_gammav1(k)-cumsum_psi_sum_gammav(k))*x-L_nu(k)*(1-x)...
-%             +C*sum(max(l-T_rj(:).*(theta_rj(:)-new_Lambda_jk_psivit(Lambda_jk_psivit_idx(:))),0));
-%     end
-% for i = 1:N
-%     T_rj = double(T_rjs{i});
-%     T_rj(T_rj~=1) = -1;
-%     [Lambda_jk_psivit_idx, theta_i_idx] = meshgrid(1:numel(Su{i}), 1:L-1);
-%     theta_rj = theta(i, theta_i_idx(:));
-%     Lambda_jk = Lambda(Su{i},:);
-%     Lambda_jk_psivit = Lambda_jk*psiv(i,:)';
-%     for r = 1:sR
-%         for k = 1:K
-%             psivik = psiv(i,k);
-%             psiv(i,k) = golden(@fObj_psivik, 0, 1, 10);
-%             Lambda_jk_psivit = Lambda_jk_psivit + (psiv(i,k)-psivik)*Lambda_jk(:,k);
-%         end
-%     end
-% end
-
 parfor i = 1:N
     T_rj = T_rjs{i};
     Lambda_jk = Lambda(Su{i},:);

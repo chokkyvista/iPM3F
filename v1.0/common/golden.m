@@ -1,3 +1,9 @@
+% Golden-section search
+% 
+% N - number of search steps
+%
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function x = golden(fun, a0, b0, N)
 r = 0.381966011250105;
 a = a0; b = b0;

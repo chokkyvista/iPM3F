@@ -1,3 +1,24 @@
+% error measure
+% 
+% inputs:
+% X - soft rating matrix (N*M)
+% theta - user-specific thresholds (N*(L-1))
+% tY - test rating matrix (N*M, must be one rating per row if one wants 'hler')
+% ell - margin parameter
+% ee - EMAE
+%
+% outputs:
+% maer - Normalized-Mean-Absolute-Error
+% mser - Mean-Squared-Error
+% mper - Mean-Prediction-Error
+% hler - Hinge-Loss-Error
+% Yhat - thesholded hard rating matrix (N*M)
+% 
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
+
+
+
 function [maer, mser, mper, hler, Yhat] = errmsr(X, theta, tY, ell, ee)
 ijs = tY~=0;
 [N,Lm1] = size(theta);

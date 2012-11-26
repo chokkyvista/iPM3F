@@ -1,3 +1,20 @@
+% partition data set
+% 
+% requires 'sparse sub access' by Bruno Luong:
+% http://www.mathworks.com/matlabcentral/fileexchange/23488-sparse-sub-access
+% 
+% inputs:
+% ratings - the entire rating matrix (N*M, 0 for missing value, ratings in 1,2,...,L)
+% minrpu - minimum number of ratings per user (filter the incapable users)
+% minrpm - minimum number of ratings per movie (filter the incapable movies)
+% nsets - perform random partition for 'nsets' times
+% nweakusrs - number of 'weak' users (omit it to indicate using all users for 'weak')
+% 
+% WARNING: when 'minrpu' and 'minrpm' are both non-zero, the resulting matrix may not
+% necessarily meet the requirements
+% 
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function [weaktrain, weaktest, strongtrain, strongtest] = pardataset(ratings, minrpu, minrpm, nsets, nweakusrs)
 weaktrain = cell(1, nsets);
 weaktest = cell(size(weaktrain));

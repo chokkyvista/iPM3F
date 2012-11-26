@@ -19,9 +19,11 @@
 #ifndef SVM_COMMON
 #define SVM_COMMON
 
+/* Modified: Minjie Xu */
 #ifdef MEX
-#include "mex.h" // 'printf' to command window
+#include "mex.h" // 'printf' to Matlab command window
 #endif
+/* */
 # include <stdio.h>
 //# include <stdint.h>
 # include <ctype.h>

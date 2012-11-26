@@ -1,3 +1,15 @@
+% calculate deviation between 'varsold' & 'newvars' to help determine
+% the convergence of variational inference
+%
+% 'varsold' & 'newvars' can be
+% 1. structs with same fields
+% 2. cells with same number of elements
+% and the returned 'dev' is a vector containing the corresponding deviations
+%
+% 'devfun': defaults to AVErage-ELEment-WISE-RELative-DEVation
+%
+% Written by Minjie Xu (chokkyvista06@gmail.com)
+
 function [dev] = deviation(varsold, newvars, devfun)
 if ~exist('devfun','var')
     devfun = @avgelewisereldev;
