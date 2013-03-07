@@ -22,11 +22,7 @@ if isstruct(varsold)
         dev(i) = devfun(getfield(varsold,vars{i}), getfield(newvars,vars{i}));
     end
 elseif iscell(varsold)
-    nvars = numel(varsold);
-    dev = zeros(1, nvars);
-    for i = 1:nvars
-        dev(i) = devfun(varsold{i}, newvars{i});
-    end
+    dev = cellfun(devfun, varsold, newvars);
 end
 
 end
