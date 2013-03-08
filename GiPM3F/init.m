@@ -3,7 +3,7 @@
 ROOTDIR = '..';
 MEXBINDIR = [ROOTDIR filesep 'bin'];
 [~,~,~] = mkdir(MEXBINDIR);
-addpath([ROOTDIR filesep 'common'], fullfile(ROOTDIR, '..', 'M3F'), MEXBINDIR, fullfile(ROOTDIR, '..', 'ibp-gibbs', 'toy'), fullfile(ROOTDIR, '..', 'daSVM'));
+addpath([ROOTDIR filesep 'common'], fullfile(ROOTDIR, '..', 'M3F'), MEXBINDIR, [ROOTDIR filesep 'IBP'], fullfile(ROOTDIR, '..', 'daSVM'));
 
 eval(['mex -O -outdir ''' MEXBINDIR ''' -output zrow_sampler CXXFLAGS="\$CXXFLAGS -std=c++0x" ''' fullfile(ROOTDIR, 'common', 'zrow_sampler.cpp') '''']);
 
