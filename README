@@ -43,3 +43,18 @@ Put together:
 >> train_ipm3f;
 >> diary off;
 >> matlabpool close;
+
+To run GiPM3F or GM3F, you may need do download daSVM (https://github.com/chokkyvista/daSVM)
+as well and put it at the same level as the iPM3F root directory:
+- daSVM
+- iPM3F
+    |- GM3F
+    |- GiPM3F
+    |- IBP
+    |- M3F
+    |- SVMLight
+    |- SVM_Multiclass
+    |- common
+    |- data
+    |- iBPM3F
+    |- iPM3F
