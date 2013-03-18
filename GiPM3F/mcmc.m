@@ -117,7 +117,7 @@ for e = 1:1
     V(:,zcidx) = [];
     K = size(Z,2);
     tElapsed = toc(tStart);
-    fval = fobj(Z, V, theta, T, Su, C, ell, rho, varsigma, alphav, ijn, wors);
+    fval = fobj(Z, V, theta, T, Su, C, ell, rho, varsigma, alphav, sigmav, ijn, wors);
     nfeapu = sum(Z,2);
     fprintf('%.4f[%d]: %d, %s, [%s][%s], %.4f (%.2fs) | Z\n', C, loopi, ...
         K, num2str([mean(nfeapu),std(nfeapu(:),1)], ['%.2f',char(177),'%.2f']), ...
@@ -149,7 +149,7 @@ for e = 1:1
             end
         end
         tElapsed = toc(tStart);
-        fval = fobj(Z, V, theta, T, Su, C, ell, rho, varsigma, alphav, ijn, wors);
+        fval = fobj(Z, V, theta, T, Su, C, ell, rho, varsigma, alphav, sigmav, ijn, wors);
         fprintf('%.4f[%d]: %s (%.2fs) | V\n', C, loopi, ...
             num2str([mean(V(:)),std(V(:),1),fval], ['%.2f',char(177),'%.2f',', %.4f']), tElapsed);
         etime = etime + tElapsed;
@@ -168,7 +168,7 @@ for e = 1:1
         end
     end
     tElapsed = toc(tStart);
-    fval = fobj(Z, V, theta, T, Su, C, ell, rho, varsigma, alphav, ijn, wors);
+    fval = fobj(Z, V, theta, T, Su, C, ell, rho, varsigma, alphav, sigmav, ijn, wors);
     fprintf('%.4f[%d]: [%s], %.4f (%.2fs) | theta\n', C, loopi, ...
         num2str(mean(theta), '%.2f '), fval, tElapsed);
     etime = etime + tElapsed;

@@ -79,16 +79,14 @@ for di = 1:numel(traindata)
                     mnZ = Z;
                     mnV = V;
                 else
-                    mzZ = mzZ.*(1-1/navg); mzZ = [mzZ, mnZ(:,zcidx)./navg];
-                    mnZ = [mnZ(:,~zcidx),zeros(N,newK)].*(1-1/navg) + Z./navg;
-                    mzV = mzV.*(1-1/navg); mzV = [mzV, mnV(:,zcidx)./navg];
-                    mnV = [mnV(:,~zcidx),zeros(M,newK)].*(1-1/navg) + V./navg;
+                    [mnZ, mzZ] = updatem(mnZ, Z, navg, zcidx, newK, mzZ);
+                    [mnV, mzV] = updatem(mnV, V, navg, zcidx, newK, mzV);
                 end
                 mZ = [mnZ,mzZ]; mV = [mnV,mzV];
                 mtheta = mtheta + (theta-mtheta)./navg;
                 minvlambda = minvlambda + (invlambda-minvlambda)./navg;
                 [cmerr{:}] = errmsr(mZ*mV', mtheta, tY, ell, ee);
-                cmfval = fobj(mZ, mV, mtheta, T, Su, C, ell, rho, varsigma, alphav, ijn, wors);
+                cmfval = fobj(mZ, mV, mtheta, T, Su, C, ell, rho, varsigma, sigmav, alphav, ijn, wors);
             else
                 mZ = Z; mV = V; mtheta = theta; minvlambda = invlambda;
                 cmerr(:) = {nan}; cmfval = nan;
