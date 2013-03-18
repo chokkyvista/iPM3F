@@ -4,7 +4,7 @@
 % 
 % Written by Minjie Xu (chokkyvista06@gmail.com)
 
-function [f] = fobj(Z, V, theta, T, Su, C, ell, rho, varsigma, alphav, ijn, wors)
+function [f] = fobj(Z, V, theta, T, Su, C, ell, rho, varsigma, alphav, sigmav, ijn, wors)
 if ~wors
     f = (0.5/sigmav^2)*(norm(V, 'fro')^2);
 else
