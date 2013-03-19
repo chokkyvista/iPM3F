@@ -3,7 +3,7 @@
 ROOTDIR = '..';
 MEXBINDIR = [ROOTDIR filesep 'bin'];
 [~,~,~] = mkdir(MEXBINDIR);
-addpath([ROOTDIR filesep 'common'], fullfile(ROOTDIR, '..', 'M3F'), MEXBINDIR, fullfile(ROOTDIR, '..', 'daSVM'));
+addpath([ROOTDIR filesep 'common'], MEXBINDIR, fullfile(ROOTDIR, '..', 'daSVM'));
 
 regvals = sqrt(sqrt(10)).^[8 7.5 7 6.5 6 5.5 5 4.5 4 3.5 3];
 regvals = 1./regvals(end:-1:1);
