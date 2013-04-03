@@ -35,7 +35,7 @@ for e = 1:1
         if algtype == 2
             invlambda(n,:) = tmu;
         else
-            invlambda(n,:) = reshape(invnrnd(tmu(:), 1, numel(n)*(L-1)), numel(n), []);
+            invlambda(n,:) = invnrnd(tmu, 1);
         end
     end
     tElapsed = toc(tStart);
