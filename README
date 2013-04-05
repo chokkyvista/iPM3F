@@ -4,18 +4,17 @@ To run iPM3F (M3F and iBPM3F likewise):
 2. load data
   >> load('../data/MovieLens-1M.mat');
 
-3. a little bit configuration
+3. a little bit configuration [OPTIONAL]
+  >> % defaults to 'weak' & 'no validation'
   >> weakopts = []; % for the 'weak' setting
-  >> validid = 0; % do not use validation set
-  >> savedir = '<you_name_it>';
-  >> mkdir(savedir);
+  >> validid = 1; % use the 1st validation set
 
 4. compile mex-files and initialize
   >> init;
 
-5. set range for regularization constant tuning
-  >> rid_s = 1;
-  >> rid_t = numel(regvals); % tune the whole 11 candidate values
+5. set range for regularization constant tuning [OPTIONAL]
+  >> % defaults to the entire range
+  >> rid_s = 1; rid_t = numel(regvals); % tune all the candidate values
 
 6. turn on parallel computing and logging [OPTIONAL]
   >> matlabpool open <your_profile>;
@@ -31,30 +30,16 @@ To run iPM3F (M3F and iBPM3F likewise):
 Put together:
 >> cd iPM3F;
 >> load('../data/MovieLens-1M.mat');
->> weakopts = [];
->> validid = 0;
->> savedir = 'testrun';
->> mkdir(savedir);
 >> init;
->> rid_s = 1;
->> rid_t = numel(regvals);
->> matlabpool open local;
->> diary(fullfile(savedir, 'log.txt'));
 >> train_ipm3f;
->> diary off;
->> matlabpool close;
 
-To run GiPM3F or GM3F, you may need do download daSVM (https://github.com/chokkyvista/daSVM)
+To run GiPM3F or GM3F, you may need to download daSVM
+(https://github.com/chokkyvista/daSVM)
 as well and put it at the same level as the iPM3F root directory:
 - daSVM
 - iPM3F
     |- GM3F
     |- GiPM3F
     |- IBP
-    |- M3F
-    |- SVMLight
-    |- SVM_Multiclass
     |- common
     |- data
-    |- iBPM3F
-    |- iPM3F

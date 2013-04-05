@@ -38,7 +38,7 @@ sigmav = 1;
 rho = linspace((2-L)*l, (L-2)*l, L-1);
 varsigma = l*1.5;
 
-wors = ~isempty(weakopts);
+wors = exist('weakopts', 'var') && ~isempty(weakopts);
 if ~wors
     traindata = weaktrain; testdata = weaktest; validata = weakvalid;
 else
@@ -53,4 +53,6 @@ psi_init = rand(N, K);
 Lambda_init = randn(M, K);
 theta_init = repmat(rho, N, 1);
 
+savedir = input('save to: ', 's');
+mkdir(savedir);
 save([savedir filesep 'init.mat'], 'gamma_init', 'psi_init', 'Lambda_init', 'theta_init');

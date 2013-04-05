@@ -15,9 +15,7 @@ sigmav = 1;
 rho = linspace(0.5*(2-L)*3*ell, 0.5*(L-2)*3*ell, L-1);
 varsigma = ell*1.5;
 
-% weakopts = [];
-% validid = 0;
-wors = ~isempty(weakopts);
+wors = exist('weakopts', 'var') && ~isempty(weakopts);
 if ~wors
     traindata = weaktrain; testdata = weaktest; validata = weakvalid;
 else
@@ -35,5 +33,6 @@ K = size(Z_init, 2);
 V_init = sigmav*randn(M,K);
 theta_init = rho(ones(1,N),:);
 
-% savedir = '.';
+savedir = input('save to: ', 's');
+mkdir(savedir);
 save([savedir filesep 'init.mat'], 'Z_init','V_init','theta_init');

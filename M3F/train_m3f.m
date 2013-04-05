@@ -3,10 +3,15 @@ fobjs = cell(size(errs));
 etimes = cell(size(errs));
 maxiter = 50;
 
+if any(~ismember({'rid_s','rid_t'}, who))
+    rid_s = 1;
+    rid_t = numel(regvals);
+end
+
 for di = 1:numel(traindata)
     fprintf('di = %d\n', di);
     
-    if ~validid
+    if ~exist('validid', 'var') || ~validid
         Y = full(traindata{di});
         tY = testdata{di};
     else
@@ -26,7 +31,7 @@ for di = 1:numel(traindata)
         T_ris{j} = repmat(Y(Sv{j},j)', L-1, 1) <= repmat((1:L-1)', 1, numel(Sv{j}));
     end
     
-    for ci = rid_s:rid_t %1:numel(regvals)
+    for ci = rid_s:rid_t
         C = regvals(ci);
         fprintf('C = %.4f\n', C);
 %         fprintf('h = %.4f\n', C);

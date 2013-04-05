@@ -31,7 +31,7 @@ regvals = 1./regvals(end:-1:1);
 K = 100;
 l = 9;
 
-wors = ~isempty(weakopts);
+wors = exist('weakopts', 'var') && ~isempty(weakopts);
 if ~wors
     traindata = weaktrain; testdata = weaktest; validata = weakvalid;
 else
@@ -44,4 +44,6 @@ U_init = randn(N, K);
 V_init = randn(M, K);
 theta_init = repmat(linspace((2-L)*l, (L-2)*l, L-1), N, 1);
 
+savedir = input('save to: ', 's');
+mkdir(savedir);
 save([savedir filesep 'init.mat'], 'U_init', 'V_init', 'theta_init');

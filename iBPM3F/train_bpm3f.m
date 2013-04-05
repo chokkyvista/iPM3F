@@ -10,7 +10,7 @@ for di = 1:numel(traindata)
     fprintf('di = %d\n', di);
     fprintf('C = %.4f\n', C);
     
-    if ~validid
+    if ~exist('validid', 'var') || ~validid
         Y = full(traindata{di});
         tY = testdata{di};
     else

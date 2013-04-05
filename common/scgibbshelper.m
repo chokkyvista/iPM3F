@@ -16,7 +16,7 @@
 function [dets, suminv] = scgibbshelper(a,b,K)
 delta = a - b;
 if isvector(a) && isvector(b)
-    a = a(:); b = b(:);
+    a = a(:); b = b(:); delta = delta(:);
     dets = zeros(numel(a), K);
     suminv = zeros(size(dets));
     dets(:,1:2) = [a, (a+b).*delta];

@@ -6,13 +6,15 @@ etimes = cell(size(errs));
 postdim = cell(size(errs));
 maxiter = 50;
 
-% rid_s = 4;
-% rid_t = 4;
+if any(~ismember({'rid_s','rid_t'}, who))
+    rid_s = 1;
+    rid_t = numel(regvals);
+end
 
 for di = 1:numel(traindata)
     fprintf('di = %d\n', di);
     
-    if ~validid
+    if ~exist('validid', 'var') || ~validid
         Y = full(traindata{di});
         tY = testdata{di};
     else
@@ -52,7 +54,7 @@ for di = 1:numel(traindata)
 %         postdim_inits{ci} = A.postdim;
 %     end
 
-    for ci = rid_s:rid_t %1:numel(regvals)
+    for ci = rid_s:rid_t
         C = regvals(ci);
         fprintf('C = %.4f\n', C);
         

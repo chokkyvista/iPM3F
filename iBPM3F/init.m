@@ -36,7 +36,7 @@ C = 1;
 rho = linspace((2-L)*l, (L-2)*l, L-1);
 varsigma = l*1.5;
 
-wors = ~isempty(weakopts);
+wors = exist('weakopts', 'var') && ~isempty(weakopts);
 if ~wors
     traindata = weaktrain; testdata = weaktest; validata = weakvalid;
 else
@@ -57,4 +57,6 @@ vars_init.invW = eye(K);
 vars_init.tau = K;
 vars_init.invXi = vars_init.invW./vars_init.tau;
 
+savedir = input('save to: ', 's');
+mkdir(savedir);
 save([savedir filesep 'init.mat'], 'vars_init');
