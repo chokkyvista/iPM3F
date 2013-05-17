@@ -76,8 +76,8 @@ for e = 1:1
             Vappend = sigmav*randn(M, poisstrunc);
             vjk = cumsum(Vappend(Su{i},:), 2);
             loglhdk = -sum(vjk.*(cv3n(:,ones(1,poisstrunc))+0.5*(cv2n(:,ones(1,poisstrunc)).*(vjk.^2))));
-            pk = [1, cumprod((alphav/N)./(1:poisstrunc))].*expp([0,loglhdk]);
-            newk = find(rand*sum(pk) > [0,cumsum(pk)], 1, 'last') - 1;
+            logpk = [0, cumsum(log(alphav/N)-log(1:poisstrunc))] + [0, loglhdk];
+            newk = logmnrnd(logpk) - 1;
             Z(i,K+1:K+newk) = 1;
             m(K+1:K+newk) = 1;
             K = K + newk;
@@ -86,12 +86,12 @@ for e = 1:1
             % semi-collapsed sampling
             [dets, suminv] = scgibbshelper(1./sigmav^2+cv2n, cv2n, poisstrunc);
             loglhdk = -((1:poisstrunc)*(numel(n)*log(sigmav)) + 0.5*log(prod(dets)) - sum(repmat(0.5*cv3n.^2, 1, poisstrunc).*suminv));
-            pk = [1, cumprod((alphav/N)./(1:poisstrunc))].*expp([0,loglhdk]);
+            logpk = [0, cumsum(log(alphav/N)-log(1:poisstrunc))] + [0, loglhdk];
             if algtype == 2
-                [~, newk] = max(pk);
+                [~, newk] = max(logpk);
                 newk = newk - 1;
             else % algtype == 1
-                newk = find(rand*sum(pk) > [0,cumsum(pk)], 1, 'last') - 1;
+                newk = logmnrnd(logpk) - 1;
             end
             if newk > 0
                 Z(i,K+1:K+newk) = 1;
@@ -119,10 +119,11 @@ for e = 1:1
     tElapsed = toc(tStart);
     fval = fobj(Z, V, theta, T, Su, C, ell, rho, varsigma, alphav, sigmav, ijn, wors);
     nfeapu = sum(Z,2);
-    fprintf('%.4f[%d]: %d, %s, [%s][%s], %.4f (%.2fs) | Z\n', C, loopi, ...
-        K, num2str([mean(nfeapu),std(nfeapu(:),1)], ['%.2f',char(177),'%.2f']), ...
-        num2str(newks(2:end)./(sum(newks)-newks(1)), '%.2f '), ...
-        num2str(newks./(sum(newks)-cumsum([0,newks(1:end-1)])), '%.2f '), ...
+    maxnewkid = find(newks, 1, 'last');
+    fprintf('%.4f[%d]: %d(%d), %s, [%s][%s], %.4f (%.2fs) | Z\n', C, loopi, ...
+        K, maxnewkid-1, num2str([mean(nfeapu),std(nfeapu(:),1)], ['%.2f',char(177),'%.2f']), ...
+        num2str(newks(2:maxnewkid)./(sum(newks)-newks(1)), '%.2f '), ...
+        num2str(newks(1:maxnewkid)./(sum(newks)-cumsum([0,newks(1:maxnewkid-1)])), '%.2f '), ...
         fval, tElapsed);
     etime = etime + tElapsed;
     

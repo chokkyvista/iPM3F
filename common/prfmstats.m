@@ -16,24 +16,28 @@ fprintf('    %.4f', mean(endvals, 1));
 fprintf('\n');
 fprintf('    %.4f', mean(minvals, 1));
 pause
-[endvals, ~, minerrs] = iterstats(opts.merr(di,ci), 1);
-fprintf('\nmean(mnmae):\n');
-fprintf('    %.4f', mean(endvals, 1));
-fprintf('\n');
-fprintf('    %.4f', mean(minerrs, 1));
-pause
+if opts.algtype ~= 2 % not EM
+    [endvals, ~, minerrs] = iterstats(opts.merr(di,ci), 1);
+    fprintf('\nmean(mnmae):\n');
+    fprintf('    %.4f', mean(endvals, 1));
+    fprintf('\n');
+    fprintf('    %.4f', mean(minerrs, 1));
+    pause
+end
 [endvals, ~, minvals] = iterstats(opts.fvals(di,ci), 1);
 fprintf('\nmean(fval): 1e6\n');
 fprintf('    %.4f', mean(endvals./1e6, 1));
 fprintf('\n');
 fprintf('    %.4f', mean(minvals./1e6, 1));
 pause
-[endvals, ~, minvals] = iterstats(opts.mfval(di,ci), 1);
-fprintf('\nmean(mfval): 1e6\n');
-fprintf('    %.4f', mean(endvals./1e6, 1));
-fprintf('\n');
-fprintf('    %.4f', mean(minvals./1e6, 1));
-pause
+if opts.algtype ~= 2 % not EM
+    [endvals, ~, minvals] = iterstats(opts.mfval(di,ci), 1);
+    fprintf('\nmean(mfval): 1e6\n');
+    fprintf('    %.4f', mean(endvals./1e6, 1));
+    fprintf('\n');
+    fprintf('    %.4f', mean(minvals./1e6, 1));
+    pause
+end
 if isfield(opts, 'postdim')
     [endvals, ~, inivals] = iterstats(opts.postdim(di,ci), 1, @(x)x(1));
     fprintf('\nmean(postdim):\n');
@@ -42,27 +46,37 @@ if isfield(opts, 'postdim')
     fprintf('\n');
     fprintf('     %4d', round(mean(inivals(:,1), 1)));
     fprintf('      %4d', round(mean(inivals(:,2:end), 1)));
+    pause
+end
+if isfield(opts, 'etimes')
+    [~, ~, totime] = iterstats(opts.etimes(di,ci), 1, @(x)sum(x));
+    fprintf('\nmean(totime): (s)\n');
+    fprintf('    %.4f', mean(totime, 1));
     fprintf('\n');
     pause
 end
 fprintf('\n');
 
 [~, optcid] = min(mean(minerrs));
-miniter = min(iters(:,optcid));
+maxiter = max(iters(:,optcid));
 optcid = ci(optcid);
 figure;
-plot(cell2mat(cellfun(@(x)x(1:miniter), opts.fvals(di,optcid), 'UniformOutput', false))', ...
+plot(cell2mat(cellfun(@(x)[x,nan*ones(1,maxiter-numel(x))], opts.fvals(di,optcid), 'UniformOutput', false))', ...
     '*--', 'LineWidth', 1.5);
 hold on;
-plot(cell2mat(cellfun(@(x)x(1:miniter), opts.mfval(di,optcid), 'UniformOutput', false))', ...
-    '.-', 'LineWidth', 1.5);
+if opts.algtype ~= 2 % not EM
+    plot(cell2mat(cellfun(@(x)[x,nan*ones(1,maxiter-numel(x))], opts.mfval(di,optcid), 'UniformOutput', false))', ...
+        '.-', 'LineWidth', 1.5);
+end
 pause
 figure;
-plot(cell2mat(cellfun(@(x)x(1,1:miniter), opts.errs(di,optcid), 'UniformOutput', false))', ...
+plot(cell2mat(cellfun(@(x)[x(1,:),nan*ones(1,maxiter-size(x,2))], opts.errs(di,optcid), 'UniformOutput', false))', ...
     '*--', 'LineWidth', 1.5);
 hold on;
-plot(cell2mat(cellfun(@(x)x(1,1:miniter), opts.merr(di,optcid), 'UniformOutput', false))', ...
-    '.-', 'LineWidth', 1.5);
+if opts.algtype ~= 2 % not EM
+    plot(cell2mat(cellfun(@(x)[x(1,:),nan*ones(1,maxiter-size(x,2))], opts.merr(di,optcid), 'UniformOutput', false))', ...
+        '.-', 'LineWidth', 1.5);
+end
 pause
 
 close all

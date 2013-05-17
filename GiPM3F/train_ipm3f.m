@@ -88,10 +88,14 @@ for di = 1:numel(traindata)
                 mtheta = mtheta + (theta-mtheta)./navg;
                 minvlambda = minvlambda + (invlambda-minvlambda)./navg;
                 [cmerr{:}] = errmsr(mZ*mV', mtheta, tY, ell, ee);
-                cmfval = fobj(mZ, mV, mtheta, T, Su, C, ell, rho, varsigma, sigmav, alphav, ijn, wors);
+                cmfval = fobj(mnZ, mnV, mtheta, T, Su, C, ell, rho, varsigma, sigmav, alphav, ijn, wors);
             else
                 mZ = Z; mV = V; mtheta = theta; minvlambda = invlambda;
-                cmerr(:) = {nan}; cmfval = nan;
+                if algtype == 2
+                    cmerr = cerr; cmfval = fval;
+                else
+                    cmerr(:) = {nan}; cmfval = nan;
+                end
             end
             
             errs{di, ci} = [errs{di, ci}, cell2mat(cerr)];

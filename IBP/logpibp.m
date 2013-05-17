@@ -3,15 +3,15 @@
 % Note:
 % 1. the probability is calculated w.r.t. the lof-equivalent class [Z]
 % 2. when Z is real-valued (e.g. averaged over multiple binary samples),
-%    it is first discretized to a binary matrix
+%    the probability is calculated w.r.t. its binary 'support'
 % 
 % See also GAMMALN
 % 
 % Written by Minjie Xu (chokkyvista06@gmail.com)
 
 function logpibpZ = logpibp(Z, alphav)
-Z = Z > 0.5;
-Z = Z(:,sum(Z)>0);
+Z = Z > 0;
+Z = Z(:,any(Z));
 
 [N,K] = size(Z);
 logpibpZ = K*log(alphav) - K*gammaln(N+1) - alphav*hrmsum(N);

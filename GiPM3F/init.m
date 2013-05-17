@@ -35,4 +35,4 @@ theta_init = rho(ones(1,N),:);
 
 savedir = input('save to: ', 's');
 mkdir(savedir);
-save([savedir filesep 'init.mat'], 'Z_init','V_init','theta_init');
+save([savedir filesep 'init.mat'], 'Z_init','K','V_init','theta_init');
